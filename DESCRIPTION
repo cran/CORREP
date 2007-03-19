@@ -1,10 +1,10 @@
 Package: CORREP
 Type: Package
-Title: The package provides multivariate correlation estmation and sets of statsitical inference procedures.
-Version: 1.0
+Title: Multivariate Correlation Estimator and Statistical Inference Procedures.
+Version: 1.0.1
 Date: 2007-03-19
 Author: Dongxiao Zhu and Youjuan Li	
 Maintainer: Dongxiao Zhu <doz@stowers-institute.org>
-Description: See manuscript 
+Description: Multivariate correlation estimation and statistical inference. See package vignette. 
 License: GPL 2.0 or later
-Packaged: Fri Mar 23 08:22:57 2007; doz
+Packaged: Fri Mar 30 13:35:45 2007; doz
