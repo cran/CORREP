@@ -3,7 +3,7 @@
 \title{Multivariate Correlation Estimator (Equal Number of Replicates)}
 \description{
 cor.balance estimates correlation matrix from replicated data assuming equal number of replicates.
-The data must be formated in the right format (rows correspond to replicates, columns correspond
+The data must be formatted in the right format (rows correspond to replicates, columns correspond
 to conditions, see example below) and the variance of each row of the data MUST equal to 1 (see example below).  
 }
 \usage{

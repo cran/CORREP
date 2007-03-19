@@ -1,4 +1,4 @@
-`cor.LRtest1` <-
+`cor.LRtest.std` <-
 function(x, m1, m2)
 {
     ## m: number of replicates
@@ -13,11 +13,14 @@ function(x, m1, m2)
     muy <-  c(rep(mu.y, m2))
     mu <- c(rep(mu.x, m1), rep(mu.y, m2))
 
-    ## get Sigmahat_x, Sigmahat_y, Sigma_null, Sigma_alternative
     Sigma.x <- matrix(0, m1, m1)
     Sigma.y <- matrix(0, m2, m2)
     Sigma.null <- matrix(0, p, p)
     Sigma.alter <- matrix(0, p, p)
+    xnew1 <- NULL
+    xnew2 <- NULL
+    xnew <- NULL
+    ## get Sigmahat_x, Sigmahat_y, Sigma_null, Sigma_alternative
     xnew1 <- x[1:m1,]-mux
     xnew2 <- x[(m1+1):(m1+m2),]-muy
     xnew <- x-mu
@@ -31,9 +34,22 @@ function(x, m1, m2)
     Sigma.x <- Sigma.x/n
     Sigma.y <- Sigma.y/n
     Sigma.alter <- Sigma.alter/n
-    diag(Sigma.x) <- 1
-    diag(Sigma.y) <- 1
-    diag(Sigma.alter) <- 1
+    Sigmax <- matrix(0, m1, m1)
+    Sigmay <- matrix(0, m2, m2)
+    Sigmaalter <- matrix(0, p, p)
+
+    for (i in 1:m1)
+    for (j in 1:m1)
+        Sigmax[i,j] <- Sigma.x[i,j]/sqrt(Sigma.x[i,i]*Sigma.x[j,j])
+
+    for (i in 1:m2)
+    for (j in 1:m2)
+        Sigmay[i,j] <- Sigma.y[i,j]/sqrt(Sigma.y[i,i]*Sigma.y[j,j])
+
+    for (i in 1:p)
+    for (j in 1:p)
+        Sigmaalter[i,j] <- Sigma.alter[i,j]/sqrt(Sigma.alter[i,i]*Sigma.alter[j,j])
+
     Sigma.null[1:m1,1:m1] <- Sigma.x
     Sigma.null[(m1+1):(m1+m2), (m1+1):(m1+m2)] <- Sigma.y
 

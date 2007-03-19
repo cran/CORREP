@@ -3,7 +3,7 @@
 \title{Multivariate Correlation Estimator (Unequal Number of Replicates)}
 \description{
 cor.unbalance estimates correlation from replicated data of unequal number of replicates.
-different from \code{\link{cor.balance}}, \code{\link{cor.unbalance}} takes a pair of varaibles 
+different from \code{\link{cor.balance}}, \code{\link{cor.unbalance}} takes a pair of variables 
 at a time because of unequal number of replicates. the variance of each row of the data MUST equal to 1 (see example below)    
 }
 \usage{

@@ -1,10 +1,10 @@
 \name{cor.bootci}
 \alias{cor.bootci}
-\title{Bootstrap Confidence Interval for Multivaraite Correlation}
+\title{Bootstrap Confidence Interval for Multivariate Correlation}
 \description{
-This function calcualtes Bootstrap confidence interval for multivaraite correlation.
-The procedure is very similair to those used to calcualte Bootstrape CI for
-other parameters. See manuscript for detail.
+This function calculates Bootstrap confidence interval for multivariate correlation.
+The procedure is very similar to those used to calculate Bootstrap CI's for
+other parameters, such as mean and correlation. See manuscript for detail.
 }
 \usage{
 cor.bootci(x, y = NULL, m, G, alpha)
@@ -26,7 +26,7 @@ See manuscript.
 \references{Zhu, D and Li Y. 2007. Multivariate Correlation Estimator for Inferring Functional Relationships
 from Replicated 'OMICS' data. Submitted.}
 \author{Dongxiao Zhu and Youjuan Li}
-\seealso{\code{\link{cor.LRtest1}}, \code{\link{cor.LRtest2}}, \code{\link{cor.test}}, \code{\link{permutest}}}
+\seealso{\code{\link{cor.LRtest}}, \code{\link{cor.LRtest.std}}, \code{\link{cor.test}}, \code{\link{permutest}}}
 \examples{
 library("CORREP")
 d0 <- NULL

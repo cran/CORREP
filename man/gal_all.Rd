@@ -6,7 +6,7 @@
 The data is compiled by Mario Medvedovic et al, 2003 based on the original full
 data reported in Ideker et al, 2001. There are a total of 205 rows (genes), 
 20 experiments, and 4 repeated measurements in the data. There are 4 classes 
-(which correspond to functional categories). The data contains approximatly 8% 
+(which correspond to functional categories). The data contains approximately 8% 
 of missing data. The missing values were filled by applying k-nearest neighbor 
 (k = 12) to impute all the missing values.   
 }
@@ -97,8 +97,8 @@ of missing data. The missing values were filled by applying k-nearest neighbor
   }
 }
 \details{
-The 205 genes have been classified into four functuional classes based on their
-GO annotations. In the data exmaple provided in the vignette, we assume the 
+The 205 genes have been classified into four functional classes based on their
+GO annotations. In the data examaple provided in the vignette, we assume the 
 four classes as true memberships (external knowledge) and use it to evaluate
 the performances of different correlation measured based clustering methods.
 }

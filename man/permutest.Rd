@@ -4,7 +4,7 @@
 \description{
 This function calculates p-values of the multivariate correlation estimator
 by enumerating all permutations. We recommend using Likehood Ratio Test implemented
-in function cor.LRtest1 if your data has moderate to large sample size (>5)
+in function cor.LRtest if your data has moderate to large sample size (>5)
 The procedure is same as those permutation tests for Pearson correlation coefficient
 or other parameters. Since the approximation of null distribution requires enumerating all permutations.
 The computational burden increases in $n^2$.   
@@ -27,7 +27,7 @@ See manuscript.
 \references{Zhu, D and Li Y. 2007. Multivariate Correlation Estimator for Inferring Functional Relationships
 from Replicated 'OMICS' data. Submitted.}
 \author{Dongxiao Zhu and Youjuan Li}
-\seealso{\code{\link{cor.LRtest1}}, \code{\link{cor.LRtest2}}, \code{\link{cor.test}}}
+\seealso{\code{\link{cor.LRtest}}, \code{\link{cor.LRtest.std}}, \code{\link{cor.test}}}
 \examples{
 library("CORREP")
 library("e1071")

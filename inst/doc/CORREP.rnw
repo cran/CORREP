@@ -5,11 +5,12 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-OMICS data are incresingly available, and (biological) replications are more and more affordable 
-for gene microarray experiments or proteomics experiments. The functional relationship 
+OMICS data are increasingly available to biomedical researchers, and (biological) 
+replications are more and more affordable for gene microarray experiments or 
+proteomics experiments. The functional relationship 
 between a pair of genes or proteins are often inferred by calculating correlation 
 coefficient between their expression profiles. Classical correlation estimation 
-techniques, such as Pearson correlation coefficient, does not explicitly take 
+techniques, such as Pearson correlation coefficient, do not explicitly take 
 replicated data into account. As a result, biological replicates are often averaged 
 before correlations are calculated. The averaging is not justified if there is 
 poor concordance between samples and the variance in each sample is not similar. 
@@ -34,7 +35,7 @@ In this toy example, $X$ and $Y$ are a pair of genes or proteins of interest.
 Using microarray or mass spectrum we were able to profile their expression over
 $n$ biological conditions such as knockouts, overexpression or SiRNA treatments either
 with replication (upper example) or without replication (lower example). There 
-are $m_1$ and $m_2$ replicates for $X$ and $Y$ respectively. It is ofen biological 
+are $m_1$ and $m_2$ replicates for $X$ and $Y$ respectively. It is often biological 
 interest how strong is the correlation between $X$ and $Y$ over $n$ conditions and 
 how significant the correlation is. Significant correlation between $X$ and $Y$ 
 often indicates potential functional relevancy. In addition, 1-correlation are 
@@ -43,7 +44,7 @@ perform hierarchical clustering. Therefore, correlation estimation is an importa
 problem in functional genomics research.
 
 For non-replicated OMICS data, estimating correlation is relatively trivial since
-there are plenty of estabolished methods such as Pearson correlation coefficient
+there are plenty of established methods such as Pearson correlation coefficient
 and its non-parametric alternatives: Spearman's $\rho$ and Kendall's $\tau$. However
 it is not straightforward to estimate correlation from replicated OMICS data.
 A naive approach may be to average over replicates to transform the replicated data
@@ -115,7 +116,7 @@ more details):
 
 To derive the MLE of $\rho$, the ideal method would be obtaining the
 likelihood explicitly as a function of $\rho$. However, this proved
-to be intractable in practice (see Manscript for detailed
+to be intractable in practice (see manscript for detailed
 discussion). Our approach is to use the average of the elements of
 $\hat{\Sigma}_{xy}$ estimated via Eq. \ref{eq:estimator}:\\
 \begin{equation} \label{eq:estimator.avg}
@@ -205,12 +206,12 @@ profiled using $4$ replicates under $20$ physiological/genetic conditions \cite{
 The whole data was initially reported in \cite{Ideker00} 
 We first estimate all pairwise correlation and then we use 1-correlation as distance
 measure to cluster these genes. Medvedovic et al, 2004 \cite{Medvedovic04} has 
-already classified the $205$ genes into $4$ fucntional groups according to their 
+already classified the $205$ genes into $4$ functional groups according to their 
 GO annotations. The four classes are: 
 \begin{itemize}
 \item Biosynthesis; protein metabolism and modification
 \item	Energy pathways; carbohydrate metabolism; catabolism
-\item	Nucleobase, nucleoside, nucleotide and nucleic acide metabolism
+\item	Nucleobase, nucleoside, nucleotide and nucleic acid metabolism
 \item	Transport
 \end{itemize}
 The membership of $205$ genes were stored in the internal data ``true.member". 
@@ -232,7 +233,7 @@ average over replicates before the straight-forward application of Pearson corre
 coefficient can be done. As we mentioned in the paper, the data used in this example
 is relatively ``clean" data (see the boxplot below for distribution of within-replicate
 correlation), which is not favorable condition to apply our estimator,
-however, the following clsutering resutls show that it still significantly outperforms Pearson
+however, the following clustering results show that it still significantly outperforms Pearson
 correlation coefficient.    
 <<>>=
 ##Take the first row and format
@@ -251,53 +252,80 @@ stddata <- apply(rawdata, 1, function(x) x/sd(x))
 stddata <- t(stddata)
 @
 The above code is to reshape the data to be compatible with functions implemented
-in this pacakge. This step is not absolutely necessary if your data is already in
+in this package. This step is not absolutely necessary if your data is already in
 the right format, for example, columns correspond to conditions and rows correspond
-to (replicated) variables. For example, a $820$ by $20$ matrix for this data. Moreover, 
+to (replicated) variables. For example, a $820$ by $20$ matrix for this data. {\bf Moreover, 
 data has to be standardized by making variance of each row (gene) equals to $1$. The 
-standardization is VERY important and must be followed.
+standardization is VERY important and must be followed}.
 <<>>=
 M <- cor.balance(stddata, m = 4, G= 205)
 @
-The above code is to calcualte $205$ by $205$ correlation matrix using the new
+The above code is to calculate $205$ by $205$ correlation matrix using the new
 multivariate correlation estimator implemented in R function \texttt{cor.balance}.
 Note that there are equivalent number of replicates for this data (balanced). For
-unbalanced data, we should use R function \texttt{cor.unbalance}. 
+unbalanced data, R function \texttt{cor.unbalance} should be used.  
 <<>>=
 row.names(M) <- row.names(M1)
 colnames(M) <- colnames(M1)
 @
-We next use 1-correlation as distance to cluster the genes into $4$ groups, and
-compare the consistency between these $4$ groups and pre-defined $4$ groups.
+We next use 1-correlation as distance measure to cluster the genes into $4$ groups, 
+and compare the consistency between these $4$ groups and pre-defined $4$ groups.
 <<>>=
 M.rep <- 1-M
 M.avg <- 1-M1
 d.rep <- as.dist(M.rep)
 d.avg <- as.dist(M.avg)
 @
-The above code calculate distance matrix for hierarhical clustering using both
+The above code calculates distance matrix for hierarchical clustering using both
 Pearson correlation coefficient and multivariate correlation estimator.
 <<>>=
 library(e1071)
 library(cluster)
 data(true.member)
-##Diana
 g.rep <- diana(d.rep)
 g.avg <- diana(d.avg)
+@
+The above code does hierarchical clustering in a top-down fashion ie, Diana,
+and classifies all $205$ genes into a number of clusters. We recommend 
+using top-down method in this case since we are interested in identifying a few 
+($4$) large clusters. For other data, if you are interested in identifying a lot 
+of small clusters, we recommend using agglomerative hierarchical clustering methods.
+See below for examples. 
+<<>>=
+h.rep <- hclust(d.rep, method = "complete")
+h.avg <- hclust(d.avg, method = "complete")
+@
+The R function {\texttt hclust} can be applied to perform bottom-up hierarchical
+clustering. In addition to choosing a proper distance measure, we will need to
+determine a method to measure distance between objects such as are ``complete",
+``average", ``single". Option ``average" seems to be robust in most of cases.
+<<>>=
 member.rep.k4 <- cutree(g.rep, k = 4)
 member.avg.k4 <- cutree(g.avg, k = 4)
 classAgreement(table(member.avg.k4, as.matrix(true.member)))
 classAgreement(table(member.rep.k4, as.matrix(true.member)))
 @
-The above code performs hierarchical clustering in a top-down fashion, ie, Diana,
-classifies all $205$ into $4$ clusters and accesses the consistency of these four
-clusters with known cluster membership (external knowledge) using adjusted RAND
-index. We recommend using top-down method in this case since we are interested in
-identifying a few ($4$) large cluster. It is obvious that clustering results based 
-on multivaraite correlation
-estimator are more consistent to the external knowledge (higher adjusted RAND index).
-\bibliographystyle{apalike}
+The above code retrieves the membership of $205$ genes as determined by divisive
+clustering, and accesses consistency of the memberships with the ``true" cluster 
+membership (external knowledge) using adjusted RAND index. The function 
+{\texttt classAgreement} that was used to calculate adjusted RAND index is from 
+``e1071" package. It is obvious that clustering results based on multivariate 
+correlation estimator are more consistent to the external knowledge (higher adjusted RAND index).
 
+We can also examine the ``quality" of clusters using, for example, silhouette plot. 
+Here quality roughly means that ratio between within-cluster deviation
+and between-cluster deviation. Although it is statistically true that good quality clusters indicate
+better clustering performance, it is not necessarily true biologically. Good quality
+clusters are only a sufficient condition for good clustering performance but not 
+a necessary condition.  
+<<>>=
+sil.rep4 <- silhouette(member.rep.k4, d.rep)
+sil.avg4 <- silhouette(member.avg.k4, d.avg)
+plot(sil.rep4, nmax = 80, cex.names = 0.5)
+plot(sil.avg4, nmax = 80, cex.names = 0.5)
+@
+
+\bibliographystyle{plainnat}
 \begin{thebibliography}{}
 \bibitem[Medvedovic {\it et~al}., 2004] {Medvedovic04} Medvedovic, M., Yeung, K.Y., Bumgarner, R.E.
 (2004) Bayesian mixtures for clustering replicated microarray data.
@@ -309,7 +337,6 @@ Comput. Biol.}, {\bf 7}, 805-817.
 
 \bibitem[Zhu and Li, 2007]{Zhu07} Zhu, D and Li, Y. 2007. 
 Multivariate Correlation Estimator for Inferring Functional Relationships from Replicated `OMICS' Data. Submitted.
-
 \end{thebibliography}
 
 \end{document}
