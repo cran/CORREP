@@ -1,0 +1,5 @@
+importFrom(e1071, permutations)
+importFrom(stats, pchisq, quantile)
+
+export(cor.balance, cor.bootci, cor.LRtest, cor.LRtest.std, cor.unbalance,
+       permutest)
